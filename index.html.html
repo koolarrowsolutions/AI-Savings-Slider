@@ -1,0 +1,104 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>AI Time & Cost Savings Calculator</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #ffffff;
+            color: #000000;
+            text-align: center;
+            padding: 40px;
+        }
+        h1 {
+            color: #1E90FF;
+        }
+        input[type=range] {
+            width: 90%;
+            margin: 30px 0;
+        }
+        .card {
+            background-color: #f0f8ff;
+            border: 1px solid #ccc;
+            border-radius: 10px;
+            padding: 20px;
+            margin: 15px auto;
+            width: 80%;
+            max-width: 600px;
+            box-shadow: 2px 2px 12px rgba(0,0,0,0.1);
+        }
+        .label {
+            font-size: 1.2em;
+            margin-bottom: 5px;
+        }
+        .value {
+            font-size: 1.6em;
+            font-weight: bold;
+            color: #1E90FF;
+        }
+    </style>
+</head>
+<body>
+    <h1>AI Time & Cost Savings Calculator</h1>
+    <div>
+        <label for="aiHours">Hours of AI Used per Day: <span id="aiHoursValue">0</span> hrs</label><br>
+        <input type="range" id="aiHours" name="aiHours" min="0" max="8" value="0" step="1">
+    </div>
+
+    <div class="card">
+        <div class="label">⏱️ Hours Saved per Day</div>
+        <div class="value" id="hoursSaved">0</div>
+    </div>
+
+    <div class="card">
+        <div class="label">📅 Workweeks Saved per Year</div>
+        <div class="value" id="weeksSaved">0</div>
+    </div>
+
+    <div class="card">
+        <div class="label">💵 Value of Time Saved (USD)</div>
+        <div class="value" id="moneySaved">$0</div>
+    </div>
+
+    <div class="card">
+        <div class="label">😩 Stressful Tasks Avoided per Day</div>
+        <div class="value" id="tasksAvoided">0</div>
+    </div>
+
+    <script>
+        const slider = document.getElementById("aiHours");
+        const aiHoursValue = document.getElementById("aiHoursValue");
+        const hoursSavedDisplay = document.getElementById("hoursSaved");
+        const weeksSavedDisplay = document.getElementById("weeksSaved");
+        const moneySavedDisplay = document.getElementById("moneySaved");
+        const tasksAvoidedDisplay = document.getElementById("tasksAvoided");
+
+        const hourlyWage = 30; // $30/hour average
+        const hoursPerWeek = 40;
+        const multiplier = 1.25;
+        const tasksPerHour = 3;
+
+        function updateValues() {
+            const aiHours = parseFloat(slider.value);
+            aiHoursValue.textContent = aiHours;
+
+            const hoursSavedPerDay = aiHours * multiplier;
+            const workdaysPerYear = 260;
+            const totalHoursSavedYear = hoursSavedPerDay * workdaysPerYear;
+            const workweeksSaved = totalHoursSavedYear / hoursPerWeek;
+            const moneySaved = totalHoursSavedYear * hourlyWage;
+            const tasksAvoided = hoursSavedPerDay * tasksPerHour;
+
+            hoursSavedDisplay.textContent = hoursSavedPerDay.toFixed(2);
+            weeksSavedDisplay.textContent = workweeksSaved.toFixed(1);
+            moneySavedDisplay.textContent = `$${moneySaved.toFixed(0)}`;
+            tasksAvoidedDisplay.textContent = tasksAvoided.toFixed(0);
+        }
+
+        slider.addEventListener("input", updateValues);
+        updateValues();
+    </script>
+</body>
+</html>
